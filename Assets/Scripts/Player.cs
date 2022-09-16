@@ -46,19 +46,15 @@ public class Player : MonoBehaviour
 
         isRun = moveDirection != Vector3.zero;
 
-        Vector3 velocity = _rigidBody.velocity;
-
-        velocity.x = moveDirection.x * _runSpeed;
-        velocity.z = moveDirection.z * _runSpeed;
-        _rigidBody.velocity = velocity;
+        _rigidBody.velocity = new Vector3(moveDirection.x * _runSpeed, _rigidBody.velocity.y,moveDirection.z * _runSpeed);
+        _rigidBody.angularVelocity = Vector3.zero;
 
         _cameraSystem.Pursue(transform.position);
 
         if (isRun)
         {
-            Quaternion rotationTarget = Quaternion.LookRotation(new Vector3(velocity.x, 0, velocity.z));
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotationTarget, Time.fixedDeltaTime * _rotationSpeed);
-            isRun = true;
+            Quaternion rotationTarget = Quaternion.LookRotation(new Vector3(moveDirection.x, 0, moveDirection.z));
+            _rigidBody.rotation = Quaternion.Lerp(_rigidBody.rotation, rotationTarget, Time.fixedDeltaTime * _rotationSpeed);
         }
 
         _animator.SetBool("IsRun", isRun);
