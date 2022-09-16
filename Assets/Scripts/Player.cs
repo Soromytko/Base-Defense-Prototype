@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
 
         Vector3 moveDirection = new Vector3(_joystick.Horizontal, 0, _joystick.Vertical);
 
-#if UNITY_STANDALONE_WIN
+#if UNITY_EDITOR
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
             moveDirection = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
 #endif
@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
 
         isRun = moveDirection != Vector3.zero;
 
-        _rigidBody.velocity = new Vector3(moveDirection.x * _runSpeed, _rigidBody.velocity.y,moveDirection.z * _runSpeed);
+        _rigidBody.velocity = new Vector3(moveDirection.x * _runSpeed, _rigidBody.velocity.y, moveDirection.z * _runSpeed);
         _rigidBody.angularVelocity = Vector3.zero;
 
         _cameraSystem.Pursue(transform.position);
