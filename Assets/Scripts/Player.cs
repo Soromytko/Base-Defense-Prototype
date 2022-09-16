@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
         _animator = GetComponent<Animator>();
 
         _cameraSystem = FindObjectOfType<CameraSystem>() ??
-            throw new System.Exception("CameraSystem is not founded");
+            throw new System.Exception("CameraSystem is not found");
     }
 
     private void FixedUpdate()

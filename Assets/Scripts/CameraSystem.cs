@@ -14,7 +14,7 @@ public class CameraSystem : MonoBehaviour
     private void Awake()
     {
         Camera = GetComponentInChildren<Camera>() ??
-            throw new System.Exception("Camera is not founded");
+            throw new System.Exception("Camera is not found");
     }
 
 }
