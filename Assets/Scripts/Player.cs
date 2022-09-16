@@ -26,19 +26,26 @@ public class Player : MonoBehaviour
         _capsuleCollider = GetComponent<CapsuleCollider>();
         _animator = GetComponent<Animator>();
 
-        //if ((_cameraSystem = FindObjectOfType<CameraSystem>()) == null)
-        //    throw new System.Exception("CameraSystem is not founded");
-
         _cameraSystem = FindObjectOfType<CameraSystem>() ??
             throw new System.Exception("CameraSystem is not founded");
-
     }
 
     private void FixedUpdate()
     {
-        isRun = false;
+        CurrentSpeed = (_rigidBody.position - _lastPosition).magnitude;
+        _lastPosition = _rigidBody.position;
 
-        Vector3 moveDirection = _cameraSystem.Camera.transform.TransformDirection(new Vector3(_joystick.Horizontal, 0, _joystick.Vertical));
+        Vector3 moveDirection = new Vector3(_joystick.Horizontal, 0, _joystick.Vertical);
+
+#if UNITY_STANDALONE_WIN
+        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+            moveDirection = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+#endif
+
+        moveDirection = _cameraSystem.Camera.transform.TransformDirection(moveDirection);
+
+        isRun = moveDirection != Vector3.zero;
+
         Vector3 velocity = _rigidBody.velocity;
 
         velocity.x = moveDirection.x * _runSpeed;
@@ -47,7 +54,7 @@ public class Player : MonoBehaviour
 
         _cameraSystem.Pursue(transform.position);
 
-        if (_joystick.Direction != Vector2.zero)
+        if (isRun)
         {
             Quaternion rotationTarget = Quaternion.LookRotation(new Vector3(velocity.x, 0, velocity.z));
             transform.rotation = Quaternion.Lerp(transform.rotation, rotationTarget, Time.fixedDeltaTime * _rotationSpeed);
