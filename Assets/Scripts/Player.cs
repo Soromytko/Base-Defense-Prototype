@@ -1,12 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDie
 {
     public float CurrentSpeed { get; private set; }
 
+    public event Action<float> HealthHandler;
+    public event Action DieHeandler;
+
+    public float Health { get => _health; private set { _health = value;  HealthHandler?.Invoke(value); } }
+
+    [SerializeField] private float _health = 100;
     [SerializeField] private float _runSpeed = 2f;
     [SerializeField] private float _rotationSpeed = 10f;
     [SerializeField] private float _animationSpeed = 1f;
@@ -59,6 +66,26 @@ public class Player : MonoBehaviour
 
         _animator.SetBool("IsRun", isRun);
         _animator.SetFloat("AnimSpeed", _animationSpeed * moveDirection.magnitude);
+    }
+
+    public void TakeDamage(float damage)
+    {
+        Health -= damage;
+        if (_health <= 0)
+        {
+            DieHeandler?.Invoke();
+
+
+
+            enabled = false;
+            _animator.Play("Die");
+        }
+    }
+
+    public void Die()
+    {
+        DieHeandler?.Invoke();
+        Destroy(gameObject);
     }
 
 }
