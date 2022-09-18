@@ -22,6 +22,8 @@ public class Enemy : Character, IAttack, IDie
 
     private void OnTriggerStay(Collider other)
     {
+        if (!enabled) return;
+
         if (other.TryGetComponent<Player>(out Player player))
         {
             if (player.Safe)
@@ -46,7 +48,7 @@ public class Enemy : Character, IAttack, IDie
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.GetComponent<Player>())
+        if (other.GetComponent<Player>())
         {
             _agent.SetDestination(transform.position);
             _animator.Play("Idle");

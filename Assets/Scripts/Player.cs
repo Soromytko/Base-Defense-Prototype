@@ -15,6 +15,7 @@ public class Player : Character, IDie
     private CapsuleCollider _capsuleCollider;
     private Animator _animator;
     private CameraSystem _cameraSystem;
+    private PlayerWeapon _weapon;
 
     private bool isRun = false;
     private Vector3 _lastPosition;
@@ -27,6 +28,9 @@ public class Player : Character, IDie
 
         _cameraSystem = FindObjectOfType<CameraSystem>() ??
             throw new System.Exception("CameraSystem is not found");
+
+        _weapon = GetComponentInChildren<PlayerWeapon>() ??
+            throw new System.Exception("PlayreWeapon is not found");
     }
 
     private void FixedUpdate()
@@ -62,16 +66,21 @@ public class Player : Character, IDie
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent<BaseInventory>(out BaseInventory baseIn))
+        if (other.GetComponent<Base>())
         {
+            print(other.name);
             Safe = true;
+            _weapon.enabled = false;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<BaseInventory>())
+        if (other.GetComponent<Base>())
+        {
             Safe = false;
+            _weapon.enabled = true;
+        }
     }
 
     public override void TakeDamage(float damage)
