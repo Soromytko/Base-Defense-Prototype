@@ -5560,7 +5560,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8074871863285473303, guid: 27f4b70759f0bec43bd8b5ae24c2e08b, type: 3}
       propertyPath: m_Name
-      value: PlayerManLite
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8882335973084314285, guid: 27f4b70759f0bec43bd8b5ae24c2e08b, type: 3}
       propertyPath: m_RootOrder
