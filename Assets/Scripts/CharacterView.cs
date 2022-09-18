@@ -11,7 +11,9 @@ public abstract class CharacterView : MonoBehaviour
 
     private void OnEnable()
     {
-        _healthBar = Instantiate(_healthBarPrefab, FindObjectOfType<Canvas>().transform);
+        var canvas = FindObjectOfType<Canvas>();
+        _healthBar = Instantiate(_healthBarPrefab, canvas.transform);
+        _healthBar.transform.SetSiblingIndex(0);
         _healthBar.Target = _healthBarPoint;
         _character.HealthHandler += OnHealthChanged;
     }
