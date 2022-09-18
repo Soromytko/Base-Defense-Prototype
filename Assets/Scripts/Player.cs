@@ -3,6 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
 public class Player : Character, IDie
 {
+    public bool Safe { get; private set; }
     public float CurrentSpeed { get; private set; }
 
     [SerializeField] private float _runSpeed = 2f;
@@ -57,6 +58,20 @@ public class Player : Character, IDie
 
         _animator.SetBool("IsRun", isRun);
         _animator.SetFloat("AnimSpeed", _animationSpeed * moveDirection.magnitude);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.TryGetComponent<BaseInventory>(out BaseInventory baseIn))
+        {
+            Safe = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<BaseInventory>())
+            Safe = false;
     }
 
     public override void TakeDamage(float damage)
