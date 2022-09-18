@@ -65,8 +65,6 @@ public class Player : Character, IDie
 
         if (_health <= 0)
         {
-            _dieHandler?.Invoke();
-
             enabled = false;
             _animator.Play("Die");
         }
@@ -74,8 +72,8 @@ public class Player : Character, IDie
 
     public void Die()
     {
+        _animator.enabled = false;
         _dieHandler?.Invoke();
-        Destroy(gameObject);
     }
 
 }
