@@ -9,7 +9,8 @@ public class Enemy : Character, IAttack, IDie
     [SerializeField] private float _weaponRadius = 0.2f;
     [SerializeField] private float _attackDistance = 1f;
     [SerializeField] private Transform _weapon;
-    [SerializeField] private GameObject[] _bonuses;
+    [SerializeField] private float _bonusesNumber = 5;
+    [SerializeField] private Bonus[] _bonusPrefabs;
 
     private Animator _animator;
     private NavMeshAgent _agent;
@@ -78,8 +79,8 @@ public class Enemy : Character, IAttack, IDie
 
     public void Die()
     {
-        foreach (var bonus in _bonuses)
-            Instantiate(bonus, transform.position, Quaternion.identity);
+        for (int i = 0; i < _bonusesNumber; i++)
+            Instantiate(_bonusPrefabs[Random.Range(0, _bonusPrefabs.Length)], transform.position + Vector3.up * i * 0.2f, Quaternion.identity);
 
         _dieHandler?.Invoke();
         Destroy(gameObject);

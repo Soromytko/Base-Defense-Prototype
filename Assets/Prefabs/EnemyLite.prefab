@@ -460,9 +460,10 @@ MonoBehaviour:
   _weaponRadius: 0.2
   _attackDistance: 0.9
   _weapon: {fileID: 5398421727452338686}
-  _bonuses:
-  - {fileID: 1138333331667143809, guid: 8bd9b6696c673da468a5ccae7e14d2c4, type: 3}
-  - {fileID: 3294626589145065325, guid: db03d2836e4529e4693b3009ed3f65f3, type: 3}
+  _bonusesNumber: 5
+  _bonusPrefabs:
+  - {fileID: 3294626589145065327, guid: db03d2836e4529e4693b3009ed3f65f3, type: 3}
+  - {fileID: 1138333331667143808, guid: 8bd9b6696c673da468a5ccae7e14d2c4, type: 3}
 --- !u!1 &2119087928990525879
 GameObject:
   m_ObjectHideFlags: 0
