@@ -68,7 +68,6 @@ public class Player : Character, IDie
     {
         if (other.GetComponent<Base>())
         {
-            print(other.name);
             Safe = true;
             _weapon.enabled = false;
         }
