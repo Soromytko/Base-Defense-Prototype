@@ -22,9 +22,14 @@ public class Enemy : Character, IAttack, IDie
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.TryGetComponent<Player>(out Player player))
+        if (other.TryGetComponent<Player>(out Player player))
         {
-            if(!player.Safe)
+            if (player.Safe)
+            {
+                _agent.SetDestination(transform.position);
+                _animator.Play("Idle");
+            }
+            else
             {
                 if (Vector3.Distance(transform.position, player.transform.position) <= _attackDistance)
                 {
@@ -36,6 +41,15 @@ public class Enemy : Character, IAttack, IDie
                     _animator.Play("Walk");
                 }
             }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.GetComponent<Player>())
+        {
+            _agent.SetDestination(transform.position);
+            _animator.Play("Idle");
         }
     }
 
