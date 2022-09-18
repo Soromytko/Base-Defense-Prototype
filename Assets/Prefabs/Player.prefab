@@ -2569,7 +2569,7 @@ GameObject:
   - component: {fileID: 8993368483302204969}
   - component: {fileID: 8993368483302204968}
   m_Layer: 6
-  m_Name: PlayerManLite
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
