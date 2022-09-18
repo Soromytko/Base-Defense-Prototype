@@ -17,6 +17,9 @@ public class EnemiesController : MonoBehaviour
     {
         _boxCollider = GetComponent<BoxCollider>();
         _spawnTimer = _spawnTimeout;
+
+        for (int i = 0; i < 3; i++)
+            SpawnEnemy();
     }
 
     private void OnTriggerStay(Collider other)
@@ -28,7 +31,7 @@ public class EnemiesController : MonoBehaviour
             if (_currentEnemyCount < _enemyMaxNumber)
             {
                 _currentEnemyCount++;
-                SpawningEnemy();
+                SpawnEnemy();
                 _spawnTimer = 0;
             }
         }
@@ -36,7 +39,6 @@ public class EnemiesController : MonoBehaviour
         {
             _spawnTimer += Time.deltaTime;
         }
-      
     }
 
     private void OnEnemyDie()
@@ -44,12 +46,10 @@ public class EnemiesController : MonoBehaviour
         _currentEnemyCount--;
     }
 
-    private void SpawningEnemy()
+    private void SpawnEnemy()
     {
-        var enemy = Instantiate(_enemyPrefab, GetRandomPosition(), Quaternion.identity);
+        var enemy = Instantiate(_enemyPrefab, GetRandomPosition(), Quaternion.Euler(0, Random.Range(0, 360), 0));
         enemy.DieHandler += OnEnemyDie;
-        print("Spawn");
-        //yield return null;
     }
 
     private Vector3 GetRandomPosition()
