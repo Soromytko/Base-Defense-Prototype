@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -25,7 +23,6 @@ public class Bullet : MonoBehaviour
     {
         RaycastHit hit;
         if(Physics.Raycast(transform.position, Direction, out hit, Vector3.Distance(transform.position, _prevPosition), _mask))
-        //if(Physics.Raycast(transform.position, Direction, out hit, 1, _mask))
         {
             var enemy = hit.transform.GetComponent<Enemy>();
             if (enemy)
