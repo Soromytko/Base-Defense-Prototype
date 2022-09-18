@@ -1,19 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
-public class Player : MonoBehaviour, IDie
+public class Player : Character, IDie
 {
     public float CurrentSpeed { get; private set; }
 
-    public event Action<float> HealthHandler;
-    public event Action DieHeandler;
-
-    public float Health { get => _health; private set { _health = value;  HealthHandler?.Invoke(value); } }
-
-    [SerializeField] private float _health = 100;
     [SerializeField] private float _runSpeed = 2f;
     [SerializeField] private float _rotationSpeed = 10f;
     [SerializeField] private float _animationSpeed = 1f;
@@ -68,14 +59,13 @@ public class Player : MonoBehaviour, IDie
         _animator.SetFloat("AnimSpeed", _animationSpeed * moveDirection.magnitude);
     }
 
-    public void TakeDamage(float damage)
+    public override void TakeDamage(float damage)
     {
         Health -= damage;
+
         if (_health <= 0)
         {
-            DieHeandler?.Invoke();
-
-
+            _dieHandler?.Invoke();
 
             enabled = false;
             _animator.Play("Die");
@@ -84,7 +74,7 @@ public class Player : MonoBehaviour, IDie
 
     public void Die()
     {
-        DieHeandler?.Invoke();
+        _dieHandler?.Invoke();
         Destroy(gameObject);
     }
 
